@@ -16,7 +16,7 @@ const Button = styled.button`
   background-color: #dc3545;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -24,7 +24,7 @@ const Button = styled.button`
   border-radius: 3px;
   font-weight: bold;
   cursor: pointer;
-  width: 175px;
+  width: 120px;
   margin-left: 80px;
 `;
 
