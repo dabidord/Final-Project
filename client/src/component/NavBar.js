@@ -4,6 +4,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 import LoginButton from "./Login/LogInButton";
 import LogoutButton from "./Login/LogoutButton";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
 
 const NavBar = () => {
   const { isAuthenticated } = useAuth0();
@@ -13,9 +18,15 @@ const NavBar = () => {
         <Container>
           <Title>HuntTree</Title>
           <ButtonContainer>
-            <StyledLink to="/">Home</StyledLink>
-            <StyledLink to="/profile">Profile</StyledLink>
-            <StyledLink to="/about">About</StyledLink>
+            <StyledLink to="/">
+              <AiOutlineHome />
+            </StyledLink>
+            <StyledLink to="/profile">
+              <AiOutlineUser />
+            </StyledLink>
+            <StyledLink to="/about">
+              <AiOutlineInfoCircle />
+            </StyledLink>
             {isAuthenticated ? <LogoutButton /> : <LoginButton />}
           </ButtonContainer>
         </Container>
@@ -42,7 +53,7 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 48px;
   font-weight: bold;
-  color: #26d49c;
+  color: #e4d00a;
 `;
 
 const ButtonContainer = styled.div`
@@ -57,9 +68,9 @@ const StyledLink = styled(NavLink)`
   font-size: 24px;
   padding: 10px 30px;
   &:hover {
-    border-bottom: 2px solid #26d49c;
+    border-bottom: 2px solid #e4d00a;
     transform: translateY(-1px);
-    color: #26d49c;
+    color: #e4d00a;
   }
 `;
 
