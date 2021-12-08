@@ -5,14 +5,12 @@ export const ListingContext = React.createContext(null);
 export const ListingProvider = ({ children }) => {
   const { user } = useAuth0();
   let initialValue = {
-    Title: "",
-    Category: "",
-    Zone: "",
-    Description: "",
+    title: "",
+    category: "",
+    zone: "",
+    description: "",
   };
   const [formValue, setFormValue] = useState(initialValue);
-
-  console.log(user);
 
   //onClickSubmit to server
   const submitListing = () => {

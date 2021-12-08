@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import { TextField, Select, MenuItem } from "@mui/material";
+import { TextField } from "@mui/material";
 import { ListingContext } from "./Context/ListingContext";
 
 const ListingCreation = () => {
@@ -17,9 +17,9 @@ const ListingCreation = () => {
     <>
       <Wrapper>
         <Container>
-          <h2>Create new listing:</h2>
+          <h3>Create new listing:</h3>
           <TextFieldContainer>
-            <h3>Title :</h3>
+            <h4>Title :</h4>
             <TextField
               onChange={(e) => {
                 setFormValue({ ...formValue, Title: e.target.value });
@@ -31,7 +31,7 @@ const ListingCreation = () => {
           </TextFieldContainer>
           <div>
             <CheckContainer>
-              <h3>Category :</h3>
+              <h4>Category :</h4>
               <Label> Land :</Label>
               <input
                 type="radio"
@@ -54,24 +54,22 @@ const ListingCreation = () => {
           </div>
           <div>
             <ZoneContainer>
-              <h3>Zone :</h3>
+              <h4>Zone :</h4>
               <Select
-                value=""
                 onChange={(e) => {
                   setFormValue({ ...formValue, Zone: e.target.value });
                 }}
-                style={{ marginLeft: 20, width: 250, height: 50 }}
               >
                 {zones?.map((zone, id) => (
-                  <MenuItem value={zone} key={id}>
+                  <Option value={zone} key={id}>
                     {zone}
-                  </MenuItem>
+                  </Option>
                 ))}
               </Select>
             </ZoneContainer>
           </div>
           <TextFieldContainer>
-            <h3>Description :</h3>
+            <h4>Description :</h4>
             <TextField
               onChange={(e) => {
                 setFormValue({ ...formValue, Description: e.target.value });
@@ -96,6 +94,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: #65676b;
+  font-size: 18px;
 `;
 
 const Container = styled.div`
@@ -128,6 +128,19 @@ const Label = styled.label`
 const ZoneContainer = styled.div`
   display: flex;
   margin: 20px 0;
+  align-items: center;
+`;
+
+const Select = styled.select`
+  margin-left: 20px;
+  width: 250px;
+  height: 50px;
+  border: 1.9px solid #d3d3d3;
+  border-radius: 4px;
+`;
+
+const Option = styled.option`
+  margin: 20px;
 `;
 
 const TextFieldContainer = styled.div`
