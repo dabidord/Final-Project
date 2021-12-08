@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import NavBar from "./NavBar";
 import Home from "./Home";
-import Profile from "./Profile";
+import Profile from "./Profile/Profile";
 import About from "./About";
 import ListingCreation from "./ListingCreation";
 import ListingDetail from "./ListingDetail";

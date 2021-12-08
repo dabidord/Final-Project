@@ -5,23 +5,33 @@ import { useAuth0 } from "@auth0/auth0-react";
 const EditProfile = ({ modify, setModify }) => {
   const { user } = useAuth0();
   const [formValue, setFormValue] = useState({
-    Nickname: "",
-    Name: "",
-    Location: "",
-    Bio: "",
-    user: user.email,
+    nickname: "",
+    name: "",
+    location: "",
+    bio: "",
   });
 
   console.log(formValue);
 
-  const handleMofify = () => {};
+  const handleMofify = () => {
+    fetch(`/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        ...formValue,
+        email: user.email,
+      }),
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
 
   return (
     <>
       <Container>
-        <UserContainer>
-          <img alt="avatar" src={user?.picture} />
-        </UserContainer>
         <FormContainer>
           <Label>
             Nickname :
@@ -75,7 +85,7 @@ const EditProfile = ({ modify, setModify }) => {
             >
               Cancel
             </Cancel>
-            <Submit type="submit" value="Modify" />
+            <Submit onClick={handleMofify} type="submit" value="Modify" />
           </BtnContainer>
         </FormContainer>
       </Container>
@@ -92,12 +102,8 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 4px;
   padding: 20px;
-`;
-
-const UserContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  color: #65676b;
+  font-size: 16px;
 `;
 
 const FormContainer = styled.form`

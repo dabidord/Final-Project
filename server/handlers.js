@@ -8,12 +8,18 @@ const options = {
 };
 const { v4: uuidv4 } = require("uuid");
 
+const getAllListing = async (req, res) => {};
+
+const getListingByUser = async (req, res) => {};
+
+const getListingByCategories = async (req, res) => {};
+
 const addListing = async (req, res) => {
-  const { Title, Category, Zone, Description, email } = req.body;
+  const { title, category, zone, description, email } = req.body;
   const _id = uuidv4();
   console.log(req.body);
 
-  if (!Title || !Category || !Zone || !Description || !email) {
+  if (!title || !category || !zone || !description || !email) {
     return res.status(404).json({ status: 404, data: "Some info is missing" });
   }
   const client = new MongoClient(MONGO_URI, options);
@@ -35,25 +41,46 @@ const addListing = async (req, res) => {
   }
 };
 
-const modifyProfile = async (req, res) => {
-  const { Nickname, Name, Location, Bio, email } = req.body;
+const getCurrentUser = async (req, res) => {
+  const { email } = req.query;
   const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const result = await db.collection("users").findOne({ email });
+    if (result) {
+      res.status(200).json({ status: 200, email, data: result });
+    } else {
+      res.status(404).json({ status: 404, email, message: "Not found" });
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
+
+const modifyProfile = async (req, res) => {
+  const { nickname, name, location, bio, email } = req.body;
+  const client = new MongoClient(MONGO_URI, options);
+
   const updatedValues = {
     $set: {
-      Location,
-      Bio,
-      Nickname,
-      Name,
+      location: location,
+      bio: bio,
+      nickname: nickname,
+      name: name,
     },
   };
-
   try {
     await client.connect();
     const db = client.db("FinalProject");
     console.log("connected");
     const update = await db
       .collection("users")
-      .updateOne(email, { updatedValues });
+      .updateOne({ email }, updatedValues);
     if (update) {
       res.status(200).json({ status: 200, modify: update });
     } else {
@@ -67,4 +94,11 @@ const modifyProfile = async (req, res) => {
   }
 };
 
-module.exports = { addListing, modifyProfile };
+module.exports = {
+  getAllListing,
+  getListingByUser,
+  getListingByCategories,
+  addListing,
+  getCurrentUser,
+  modifyProfile,
+};

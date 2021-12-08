@@ -9,8 +9,6 @@ const Home = () => {
   const { user } = useAuth0();
   const { isAuthenticated } = useAuth0();
 
-  console.log(user);
-
   return (
     <>
       {isAuthenticated && (
