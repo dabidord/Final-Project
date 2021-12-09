@@ -11,9 +11,8 @@ const EditProfile = ({ modify, setModify }) => {
     bio: "",
   });
 
-  console.log(formValue);
-
-  const handleMofify = () => {
+  const handleModify = (e) => {
+    e.preventDefault();
     fetch(`/profile`, {
       method: "PUT",
       headers: {
@@ -27,6 +26,7 @@ const EditProfile = ({ modify, setModify }) => {
     }).catch((err) => {
       console.log(err);
     });
+    setModify(false);
   };
 
   return (
@@ -37,7 +37,7 @@ const EditProfile = ({ modify, setModify }) => {
             Nickname :
             <Input
               onChange={(e) => {
-                setFormValue({ ...formValue, Nickname: e.target.value });
+                setFormValue({ ...formValue, nickname: e.target.value });
               }}
               type="text"
               name="nickname"
@@ -48,7 +48,7 @@ const EditProfile = ({ modify, setModify }) => {
             Name :
             <Input
               onChange={(e) => {
-                setFormValue({ ...formValue, Name: e.target.value });
+                setFormValue({ ...formValue, name: e.target.value });
               }}
               type="text"
               name="name"
@@ -59,7 +59,7 @@ const EditProfile = ({ modify, setModify }) => {
             Location :
             <Input
               onChange={(e) => {
-                setFormValue({ ...formValue, Location: e.target.value });
+                setFormValue({ ...formValue, location: e.target.value });
               }}
               type="text"
               name="location"
@@ -70,7 +70,7 @@ const EditProfile = ({ modify, setModify }) => {
             Bio :
             <Text
               onChange={(e) => {
-                setFormValue({ ...formValue, Bio: e.target.value });
+                setFormValue({ ...formValue, bio: e.target.value });
               }}
               type="text"
               name="bio"
@@ -85,7 +85,11 @@ const EditProfile = ({ modify, setModify }) => {
             >
               Cancel
             </Cancel>
-            <Submit onClick={handleMofify} type="submit" value="Modify" />
+            <Submit
+              onClick={(e) => handleModify(e)}
+              type="submit"
+              value="Modify"
+            />
           </BtnContainer>
         </FormContainer>
       </Container>
@@ -128,7 +132,7 @@ const Input = styled.input`
 
 const Text = styled.textarea`
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
   height: 150px;
   resize: none;

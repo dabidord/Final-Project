@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { CurrentUserContext } from "./CurrentUser";
 export const ListingContext = React.createContext(null);
 
 export const ListingProvider = ({ children }) => {
+  const { currentUser } = useContext(CurrentUserContext);
   const { user } = useAuth0();
   let initialValue = {
     title: "",
@@ -23,6 +25,9 @@ export const ListingProvider = ({ children }) => {
       body: JSON.stringify({
         ...formValue,
         email: user.email,
+        name: currentUser?.name,
+        nickname: currentUser?.nickname,
+        userpicture: currentUser?.picture,
       }),
     }).catch((err) => {
       console.log(err);

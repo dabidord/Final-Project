@@ -22,7 +22,7 @@ const ListingCreation = () => {
             <h4>Title :</h4>
             <TextField
               onChange={(e) => {
-                setFormValue({ ...formValue, Title: e.target.value });
+                setFormValue({ ...formValue, title: e.target.value });
               }}
               id="outlined-basic"
               label="Title"
@@ -38,7 +38,7 @@ const ListingCreation = () => {
                 value="Land"
                 name="Category"
                 onChange={(e) => {
-                  setFormValue({ ...formValue, Category: e.target.value });
+                  setFormValue({ ...formValue, category: e.target.value });
                 }}
               />
               <Label> Guide :</Label>
@@ -47,7 +47,7 @@ const ListingCreation = () => {
                 value="Guide"
                 name="Category"
                 onChange={(e) => {
-                  setFormValue({ ...formValue, Category: e.target.value });
+                  setFormValue({ ...formValue, category: e.target.value });
                 }}
               />
             </CheckContainer>
@@ -57,7 +57,7 @@ const ListingCreation = () => {
               <h4>Zone :</h4>
               <Select
                 onChange={(e) => {
-                  setFormValue({ ...formValue, Zone: e.target.value });
+                  setFormValue({ ...formValue, zone: e.target.value });
                 }}
               >
                 {zones?.map((zone, id) => (
@@ -68,11 +68,12 @@ const ListingCreation = () => {
               </Select>
             </ZoneContainer>
           </div>
+          <input type="file"></input>
           <TextFieldContainer>
             <h4>Description :</h4>
             <TextField
               onChange={(e) => {
-                setFormValue({ ...formValue, Description: e.target.value });
+                setFormValue({ ...formValue, description: e.target.value });
               }}
               id="outlined-basic"
               label="Description"

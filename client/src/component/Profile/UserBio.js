@@ -1,11 +1,28 @@
 import React from "react";
-
-const UserBio = () => {
+import styled from "styled-components";
+const UserBio = ({ currentUser }) => {
   return (
     <>
-      <div>Hello</div>
+      <Container>
+        <Title>About me :</Title> {currentUser.bio}
+      </Container>
     </>
   );
 };
+
+const Container = styled.div`
+  width: 50%;
+  height: 100%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  color: #65676b;
+`;
+
+const Title = styled.div`
+  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+`;
 
 export default UserBio;

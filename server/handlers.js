@@ -1,6 +1,6 @@
 "use-strict";
-const { MongoClient } = require("mongodb");
 require("dotenv").config();
+const { MongoClient } = require("mongodb");
 const { MONGO_URI } = process.env;
 const options = {
   useNewUrlParser: true,
@@ -8,18 +8,114 @@ const options = {
 };
 const { v4: uuidv4 } = require("uuid");
 
-const getAllListing = async (req, res) => {};
+const getAllListing = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    const { category, zone } = req.query;
 
-const getListingByUser = async (req, res) => {};
+    const query = {};
+    if (category !== undefined) {
+      query["category"] = category;
+    }
+    if (zone !== undefined) {
+      query["zone"] = zone;
+    }
+    console.log(query);
 
-const getListingByCategories = async (req, res) => {};
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const result = await db.collection("ads").find(query).toArray();
+    if (!result || result.length == 0) {
+      // Return error if no results or errors
+      console.log(result);
+
+      return res.status(500).json({
+        status: 500,
+        data: req.query,
+        message: "Could not find any items",
+      });
+    } else {
+      // Return data if OK
+      res.status(200).json({
+        status: 200,
+        data: result,
+        message: `Found ${result.length} results`,
+      });
+    }
+    client.close();
+    console.log("disconnected");
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  }
+};
+
+const getListingById = async (req, res) => {
+  const { _id } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const result = await db.collection("ads").findOne({ _id });
+    if (result) {
+      res.status(200).json({ status: 200, data: result });
+    } else {
+      res.status(404).json({ status: 404, message: "Not found" });
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
+
+const getListingByUser = async (req, res) => {
+  const { email } = req.query;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const result = await db.collection("ads").find({ email }).toArray();
+    if (result) {
+      res.status(200).json({ status: 200, email, data: result });
+    } else {
+      res.status(404).json({ status: 404, email, message: "Not found" });
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
 
 const addListing = async (req, res) => {
-  const { title, category, zone, description, email } = req.body;
+  const {
+    title,
+    category,
+    zone,
+    description,
+    email,
+    name,
+    nickname,
+    userpicture,
+  } = req.body;
   const _id = uuidv4();
-  console.log(req.body);
+  const timestamp = new Date().toISOString();
 
-  if (!title || !category || !zone || !description || !email) {
+  if (
+    !title ||
+    !category ||
+    !zone ||
+    !description ||
+    !email ||
+    !name ||
+    !nickname ||
+    !userpicture
+  ) {
     return res.status(404).json({ status: 404, data: "Some info is missing" });
   }
   const client = new MongoClient(MONGO_URI, options);
@@ -27,7 +123,9 @@ const addListing = async (req, res) => {
     await client.connect();
     const db = client.db("FinalProject");
     console.log("connected");
-    const add = await db.collection("ads").insertOne({ _id, ...req.body });
+    const add = await db
+      .collection("ads")
+      .insertOne({ _id, ...req.body, timestamp });
     if (add) {
       res.status(200).json({ status: 200, added: req.body });
     } else {
@@ -53,6 +151,27 @@ const getCurrentUser = async (req, res) => {
       res.status(200).json({ status: 200, email, data: result });
     } else {
       res.status(404).json({ status: 404, email, message: "Not found" });
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
+
+const getUserById = async (req, res) => {
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const user = await db.collection("users").findOne({ email });
+    if (user) {
+      res.status(200).json({ status: 200, email, data: user });
+    } else {
+      res.status(404).json({ status: 404, email, message: "Not Found" });
     }
   } catch (err) {
     res.status(404).json({ status: 404, message: err });
@@ -97,8 +216,9 @@ const modifyProfile = async (req, res) => {
 module.exports = {
   getAllListing,
   getListingByUser,
-  getListingByCategories,
+  getListingById,
   addListing,
   getCurrentUser,
+  getUserById,
   modifyProfile,
 };
