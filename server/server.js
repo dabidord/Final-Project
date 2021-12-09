@@ -1,23 +1,26 @@
 "use strict";
 const express = require("express");
-const PORT = 8000;
-const app = express();
 const morgan = require("morgan");
-const dotenv = require("dotenv");
+const app = express();
 app.use(morgan("tiny"));
 app.use(express.json());
-require("dotenv").config();
+const PORT = 8000;
 
 const {
   getAllListing,
   getListingByUser,
-  getListingByCategories,
+  getListingById,
   addListing,
   getCurrentUser,
+  getUserById,
   modifyProfile,
 } = require("./handlers");
 
+app.get("/listing", getAllListing);
+app.get("/listingUser", getListingByUser);
+app.get("/listing/:_id", getListingById);
 app.get("/user", getCurrentUser);
+app.get("/user/:email", getUserById);
 app.post("/listing", addListing);
 app.put("/profile", modifyProfile);
 

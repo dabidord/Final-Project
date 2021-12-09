@@ -17,7 +17,7 @@ const App = () => {
         <Route exact path="/" element={<Home />}></Route>
         <Route exact path="/profile" element={<Profile />}></Route>
         <Route exact path="/create" element={<ListingCreation />}></Route>
-        <Route exact path="/detail/:id" element={<ListingDetail />}></Route>
+        <Route exact path="/listing/:_id" element={<ListingDetail />}></Route>
         <Route exact path="/about" element={<About />}></Route>
       </Routes>
     </BrowserRouter>
@@ -29,7 +29,7 @@ body{
   padding:0;
   margin:0;
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
 
 }
   

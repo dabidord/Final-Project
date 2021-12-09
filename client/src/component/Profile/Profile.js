@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { HiOutlinePencil } from "react-icons/hi";
-
 //components
 import ListingByUser from "./ListingByUser";
 import EditProfile from "./EditProfile";
@@ -16,38 +15,82 @@ const Profile = () => {
   const { user } = useAuth0();
   const { currentUser } = useContext(CurrentUserContext);
   const [modify, setModify] = useState(false);
-  const { about, setAbout } = useState(false);
-  const { bio, setBio } = useState(false);
-  const { friends, setFriends } = useState(false);
-  const { ads, setAds } = useState(false);
+  const [about, setAbout] = useState(false);
+  const [bio, setBio] = useState(false);
+  const [friends, setFriends] = useState(false);
+  const [ads, setAds] = useState(false);
 
-  console.log(about, bio, friends, ads);
   return (
     <>
       <Container>
         <HiOutlinePencil
-          style={{ cursor: "pointer" }}
-          onClick={() => setModify(true)}
+          style={{ cursor: "pointer", marginBottom: "20px" }}
+          onClick={() => {
+            setAbout(false);
+            setBio(false);
+            setFriends(false);
+            setAds(false);
+            setModify(true);
+          }}
         />
         <UserContainer>
           <img alt="avatar" src={user?.picture} />
           <InfoContainer>
-            <Name>{currentUser?.name}</Name>
             <NickName>{currentUser?.nickname}</NickName>
           </InfoContainer>
         </UserContainer>
       </Container>
       <UserNav>
-        <Nav onClick={() => setAbout(true)}>About</Nav>
-        <Nav onClick={() => setBio(true)}>Bio</Nav>
-        <Nav onClick={() => setFriends(true)}>Friends</Nav>
-        <Nav onClick={() => setAds(true)}>Ads</Nav>
+        <Nav
+          onClick={() => {
+            setAbout(true);
+            setBio(false);
+            setFriends(false);
+            setAds(false);
+            setModify(false);
+          }}
+        >
+          About
+        </Nav>
+        <Nav
+          onClick={() => {
+            setAbout(false);
+            setBio(true);
+            setFriends(false);
+            setAds(false);
+            setModify(false);
+          }}
+        >
+          Bio
+        </Nav>
+        <Nav
+          onClick={() => {
+            setAbout(false);
+            setBio(false);
+            setFriends(true);
+            setAds(false);
+            setModify(false);
+          }}
+        >
+          Friends
+        </Nav>
+        <Nav
+          onClick={() => {
+            setAbout(false);
+            setBio(false);
+            setFriends(false);
+            setAds(true);
+            setModify(false);
+          }}
+        >
+          Ads
+        </Nav>
       </UserNav>
       {modify === true && <EditProfile setModify={setModify} />}
-      {about === true && <UserInfo setAbout={setAbout} />}
-      {bio === true && <UserBio setBio={setBio} />}
-      {friends === true && <FriendsList setFriends={setFriends} />}
-      {ads === true && <ListingByUser setAds={setAds} />}
+      {about === true && <UserInfo currentUser={currentUser} />}
+      {bio === true && <UserBio currentUser={currentUser} />}
+      {friends === true && <FriendsList currentUser={currentUser} />}
+      {ads === true && <ListingByUser currentUser={currentUser} />}
     </>
   );
 };
@@ -107,11 +150,6 @@ const InfoContainer = styled.div`
 `;
 
 const NickName = styled.div`
-  margin: 20px;
-  font-weight: bold;
-`;
-
-const Name = styled.div`
   margin: 20px;
   font-weight: bold;
 `;
