@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { CurrentUserContext } from "./Context/CurrentUser";
 import Loading from "./Conditionnal/Loading";
 
 import moment from "moment";
 const ListingFeed = () => {
-  const { newUser } = useContext(CurrentUserContext);
   const [listings, setListings] = useState(null);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("All");

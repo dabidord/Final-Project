@@ -17,8 +17,8 @@ import { CurrentUserContext } from "../Context/CurrentUser";
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { user, isAuthenticated } = useAuth0();
-  const { currentUser, newUser, isLogged } = useContext(CurrentUserContext);
+  const { isAuthenticated } = useAuth0();
+  const { currentUser, newUser } = useContext(CurrentUserContext);
   const [thisUser, setThisUser] = useState(false);
   const [modify, setModify] = useState(false);
   const [about, setAbout] = useState(false);
@@ -43,7 +43,7 @@ const Profile = () => {
         }
         setStatus("loaded");
       });
-  }, [email]);
+  }, [currentUser, modify]);
 
   if (status === "loading") {
     return (
@@ -57,7 +57,7 @@ const Profile = () => {
         <EditProfile setModify={setModify} />
       </>
     );
-  } else if (!isLogged && !isAuthenticated) {
+  } else if (!currentUser) {
     return (
       <>
         <UserNotLogged />

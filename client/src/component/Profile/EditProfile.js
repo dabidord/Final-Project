@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const EditProfile = ({ modify, setModify }) => {
   const { user } = useAuth0();
   const [formValue, setFormValue] = useState({
-    nickname: "",
+    nickname: user?.nickname,
     name: "",
     location: "",
     bio: "",
@@ -30,22 +30,21 @@ const EditProfile = ({ modify, setModify }) => {
       console.log(err);
     });
     setModify(false);
-    window.location.reload(false);
   };
 
   return (
     <>
       <Container>
-        <FormContainer>
+        <FormContainer onSubmit={(e) => handleModify(e)}>
           <Label>
             Nickname :
             <Input
               onChange={(e) => {
                 setFormValue({ ...formValue, nickname: e.target.value });
               }}
+              value={formValue.nickname}
               type="text"
               name="nickname"
-              placeholder={user?.nickname}
             />
           </Label>
           <Label>
@@ -69,7 +68,6 @@ const EditProfile = ({ modify, setModify }) => {
               name="location"
             />
           </Label>
-
           <Label>
             Bio :
             <Text
@@ -84,16 +82,12 @@ const EditProfile = ({ modify, setModify }) => {
           <BtnContainer>
             <Cancel
               onClick={() => {
-                setModify(true);
+                setModify(false);
               }}
             >
               Cancel
             </Cancel>
-            <Submit
-              onClick={(e) => handleModify(e)}
-              type="submit"
-              value="Modify"
-            />
+            <Submit type="submit" value="Modify" />
           </BtnContainer>
         </FormContainer>
       </Container>

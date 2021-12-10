@@ -4,14 +4,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 export const CurrentUserContext = React.createContext(null);
 
 export const CurrentUserProvider = ({ children }) => {
+  const { user, isAuthenticated } = useAuth0();
   const [currentUser, setCurrentUser] = useState(null);
   const [newUser, setNewUser] = useState(false);
   const [status, setStatus] = useState("idle");
   const [isLogged, setIsLogged] = useState(false);
-  const { user } = useAuth0();
 
   useEffect(() => {
-    if (user) {
+    if (user && isAuthenticated) {
       setStatus("loading");
       fetch(`/user/${user?.email}`)
         .then((res) => res.json())
@@ -29,9 +29,6 @@ export const CurrentUserProvider = ({ children }) => {
         });
     }
   }, [user]);
-
-  console.log(newUser);
-  console.log(currentUser);
 
   return (
     <CurrentUserContext.Provider
