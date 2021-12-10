@@ -139,26 +139,26 @@ const addListing = async (req, res) => {
   }
 };
 
-const getCurrentUser = async (req, res) => {
-  const { email } = req.query;
-  const client = new MongoClient(MONGO_URI, options);
-  try {
-    await client.connect();
-    console.log("connected");
-    const db = client.db("FinalProject");
-    const result = await db.collection("users").findOne({ email });
-    if (result) {
-      res.status(200).json({ status: 200, email, data: result });
-    } else {
-      res.status(404).json({ status: 404, email, message: "Not found" });
-    }
-  } catch (err) {
-    res.status(404).json({ status: 404, message: err });
-  } finally {
-    client.close();
-    console.log("disconnected");
-  }
-};
+// const getCurrentUser = async (req, res) => {
+//   const { email } = req.query;
+//   const client = new MongoClient(MONGO_URI, options);
+//   try {
+//     await client.connect();
+//     console.log("connected");
+//     const db = client.db("FinalProject");
+//     const result = await db.collection("users").findOne({ email });
+//     if (result) {
+//       res.status(200).json({ status: 200, email, data: result });
+//     } else {
+//       res.status(404).json({ status: 404, email, message: "Not found" });
+//     }
+//   } catch (err) {
+//     res.status(404).json({ status: 404, message: err });
+//   } finally {
+//     client.close();
+//     console.log("disconnected");
+//   }
+// };
 
 const getUserById = async (req, res) => {
   const { email } = req.params;
@@ -181,9 +181,32 @@ const getUserById = async (req, res) => {
   }
 };
 
-const modifyProfile = async (req, res) => {
-  const { nickname, name, location, bio, email } = req.body;
+const addUserInfo = async (req, res) => {
+  const { email } = req.params;
   const client = new MongoClient(MONGO_URI, options);
+  const { userpicture } = req.body;
+  try {
+    await client.connect();
+    console.log("connected");
+    const db = client.db("FinalProject");
+    const add = await db.collection("users").updateOne({ email }, ...req.body);
+    if (add) {
+      res.status(200).json({ status: 200, email, added: req.body });
+    } else {
+      res.status(404).json({ status: 404, email, message: "Not Found" });
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err });
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
+
+const modifyProfile = async (req, res) => {
+  const { nickname, name, location, bio, email, userpicture } = req.body;
+  const client = new MongoClient(MONGO_URI, options);
+  const timestamp = new Date().toISOString();
 
   const updatedValues = {
     $set: {
@@ -191,6 +214,7 @@ const modifyProfile = async (req, res) => {
       bio: bio,
       nickname: nickname,
       name: name,
+      userpicture: userpicture,
     },
   };
   try {
@@ -201,7 +225,7 @@ const modifyProfile = async (req, res) => {
       .collection("users")
       .updateOne({ email }, updatedValues);
     if (update) {
-      res.status(200).json({ status: 200, modify: update });
+      res.status(200).json({ status: 200, modify: update, timestamp });
     } else {
       res.status(404).json({ status: 404, message: "Not Found" });
     }
@@ -218,7 +242,7 @@ module.exports = {
   getListingByUser,
   getListingById,
   addListing,
-  getCurrentUser,
   getUserById,
+  addUserInfo,
   modifyProfile,
 };

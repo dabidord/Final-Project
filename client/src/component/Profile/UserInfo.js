@@ -3,24 +3,24 @@ import styled from "styled-components";
 import { GoLocation } from "react-icons/go";
 import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
 
-const UserInfo = ({ currentUser }) => {
+const UserInfo = ({ thisUser }) => {
   return (
     <>
       <Container>
         <Info>
           <AiOutlineUser size={28} />
           <Title> Name:</Title>
-          {currentUser.name}
+          {thisUser?.name}
         </Info>
         <Info>
           <AiOutlineMail size={28} />
           <Title>Email:</Title>
-          {currentUser.email}
+          {thisUser?.email}
         </Info>
         <Info>
           <GoLocation size={28} />
           <Title> Location:</Title>
-          {currentUser.location}
+          {thisUser?.location}
         </Info>
       </Container>
     </>

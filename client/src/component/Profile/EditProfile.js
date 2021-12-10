@@ -9,8 +9,11 @@ const EditProfile = ({ modify, setModify }) => {
     name: "",
     location: "",
     bio: "",
+    userpicture: user?.picture,
   });
-
+  //************************************************************** */
+  /// modifying profile
+  //************************************************************** */
   const handleModify = (e) => {
     e.preventDefault();
     fetch(`/profile`, {
@@ -27,6 +30,7 @@ const EditProfile = ({ modify, setModify }) => {
       console.log(err);
     });
     setModify(false);
+    window.location.reload(false);
   };
 
   return (
