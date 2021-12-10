@@ -12,10 +12,8 @@ import UserNotLogged from "./Conditionnal/UserNotLogged";
 
 const Home = () => {
   let navigate = useNavigate();
-  const { currentUser, newUser, status, isLogged } =
-    useContext(CurrentUserContext);
+  const { currentUser, newUser, status } = useContext(CurrentUserContext);
   const { user, isAuthenticated } = useAuth0();
-  const {} = useAuth0();
 
   if (status === "loading") {
     return (
@@ -29,7 +27,7 @@ const Home = () => {
         <NewUser />
       </>
     );
-  } else if (!isLogged && !isAuthenticated) {
+  } else if (!currentUser) {
     return (
       <>
         <UserNotLogged />
