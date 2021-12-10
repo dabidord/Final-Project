@@ -11,15 +11,15 @@ const {
   getListingByUser,
   getListingById,
   addListing,
-  getCurrentUser,
   getUserById,
+  addUserInfo,
   modifyProfile,
 } = require("./handlers");
 
 app.get("/listing", getAllListing);
 app.get("/listingUser", getListingByUser);
 app.get("/listing/:_id", getListingById);
-app.get("/user", getCurrentUser);
+app.put("/user/:email", addUserInfo);
 app.get("/user/:email", getUserById);
 app.post("/listing", addListing);
 app.put("/profile", modifyProfile);

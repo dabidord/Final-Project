@@ -1,39 +1,71 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+//hooks
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
+import { CurrentUserContext } from "./Context/CurrentUser";
+//components
 import ListingFeed from "./ListingFeed";
+import NewUser from "./Conditionnal/NewUser";
+import Loading from "./Conditionnal/Loading";
+import UserNotLogged from "./Conditionnal/UserNotLogged";
 
 const Home = () => {
   let navigate = useNavigate();
-  const { user } = useAuth0();
-  const { isAuthenticated } = useAuth0();
+  const { currentUser, newUser, status, isLogged } =
+    useContext(CurrentUserContext);
+  const { user, isAuthenticated } = useAuth0();
+  const {} = useAuth0();
 
-  return (
-    <>
-      {isAuthenticated && (
-        <Container>
-          <UserContainer>
-            <Avatar
-              onClick={() => navigate("/profile")}
-              alt="avatar"
-              src={user.picture}
-            />
-            <Nickname>{user.nickname}</Nickname>
-          </UserContainer>
-          <Button
-            onClick={() => {
-              navigate("/create");
-            }}
-          >
-            New listing
-          </Button>
-        </Container>
-      )}
-      <ListingFeed />
-    </>
-  );
+  if (status === "loading") {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  } else if (newUser === true) {
+    return (
+      <>
+        <NewUser />
+      </>
+    );
+  } else if (!isLogged && !isAuthenticated) {
+    return (
+      <>
+        <UserNotLogged />
+      </>
+    );
+  } else {
+    return (
+      <>
+        {isAuthenticated ? (
+          <Wrapper>
+            <Container>
+              <UserContainer>
+                <Avatar
+                  onClick={() => navigate(`/user/${currentUser?.email}`)}
+                  alt="avatar"
+                  src={user.picture}
+                />
+                <Nickname>{currentUser?.nickname}</Nickname>
+              </UserContainer>
+              <Button
+                onClick={() => {
+                  navigate("/create");
+                }}
+              >
+                New listing
+              </Button>
+            </Container>
+            <ListingFeed />
+          </Wrapper>
+        ) : null}
+      </>
+    );
+  }
 };
+
+const Wrapper = styled.div``;
 
 const Container = styled.div`
   width: 50%;

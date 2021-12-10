@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-const UserBio = ({ currentUser }) => {
+const UserBio = ({ thisUser }) => {
   return (
     <>
       <Container>
-        <Title>About me :</Title> {currentUser.bio}
+        <Title>About me :</Title> {thisUser?.bio}
       </Container>
     </>
   );

@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useParams } from "react-router";
+import styled from "styled-components";
+//libraries
+import moment from "moment";
+//components
+import Loading from "./Conditionnal/Loading";
 
 const ListingDetail = () => {
-  const [listing, setListing] = useState();
+  const [listing, setListing] = useState(null);
+  const [status, setStatus] = useState("idle");
   let { _id } = useParams();
 
+  //************************************************************** */
+  /// fetching listingDetail by _id
+  //************************************************************** */
   useEffect(() => {
+    setStatus("loading");
     fetch(`/listing/${_id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -15,26 +24,90 @@ const ListingDetail = () => {
       .catch((err) => {
         console.log(err);
       });
+    setStatus("loaded");
   }, [_id]);
 
-  console.log(listing);
-
-  return (
-    <>
-      <Container>
-        <div>Detail HERE</div>
-      </Container>
-    </>
-  );
+  if (status === "loading") {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Container>
+          <UserInfo>
+            <strong style={{ marginRight: "20px" }}>Posted by :</strong>{" "}
+            <Avatar alt="userpicture" src={listing?.userpicture} />
+            {listing?.nickname}
+          </UserInfo>
+          <Title>{listing?.title}</Title>
+          <Description>
+            <strong style={{ marginBottom: "10px" }}>Description: </strong>
+            {listing?.description}
+          </Description>
+          <Category>
+            <strong>Category:</strong> {listing?.category}
+          </Category>
+          <div>
+            <strong>Zone: </strong>
+            {listing?.zone}
+          </div>
+          <TimeStamp>
+            {moment(listing?.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
+          </TimeStamp>
+        </Container>
+      </>
+    );
+  }
 };
 
 const Container = styled.div`
-  width: 40%;
+  width: 50%;
   height: 100%;
   margin: 20px auto;
+  padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: #65676b;
+  border: solid;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+  margin-bottom: 10px;
+`;
+
+const Avatar = styled.img`
+  height: auto;
+  width: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 24px;
+  margin: 10px 0;
+`;
+
+const Description = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
+`;
+
+const Category = styled.div`
+  margin: 10px 0;
+`;
+
+const TimeStamp = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
 `;
 
 export default ListingDetail;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
@@ -9,9 +9,12 @@ import {
   AiOutlineUser,
   AiOutlineInfoCircle,
 } from "react-icons/ai";
+import { CurrentUserContext } from "./Context/CurrentUser";
 
 const NavBar = () => {
+  const { currentUser } = useContext(CurrentUserContext);
   const { isAuthenticated } = useAuth0();
+
   return (
     <>
       <Wrapper>
@@ -21,7 +24,7 @@ const NavBar = () => {
             <StyledLink to="/">
               <AiOutlineHome />
             </StyledLink>
-            <StyledLink to="/profile">
+            <StyledLink to={`/user/${currentUser?.email}`}>
               <AiOutlineUser />
             </StyledLink>
             <StyledLink to="/about">
