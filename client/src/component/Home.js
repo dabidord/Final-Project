@@ -10,7 +10,6 @@ import NewUser from "./Conditionnal/NewUser";
 import Loading from "./Conditionnal/Loading";
 import UserNotLogged from "./Conditionnal/UserNotLogged";
 import Maps from "./Maps/Maps";
-
 const Home = () => {
   let navigate = useNavigate();
   const { currentUser, newUser, status } = useContext(CurrentUserContext);
@@ -37,7 +36,7 @@ const Home = () => {
   } else {
     return (
       <>
-        {/* {isAuthenticated ? (
+        {isAuthenticated ? (
           <Wrapper>
             <Container>
               <UserContainer>
@@ -58,8 +57,7 @@ const Home = () => {
             </Container>
             <ListingFeed />
           </Wrapper>
-        ) : null} */}
-        <Maps />
+        ) : null}
       </>
     );
   }

@@ -8,6 +8,7 @@
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.2.2",
+    "@reach/combobox": "^0.16.5",
     "@react-google-maps/api": "^2.7.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -18,10 +19,12 @@
     "ract": "^0.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-geocode": "^0.2.3",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.3",
+    "use-places-autocomplete": "^1.11.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

@@ -16,9 +16,7 @@ export const CurrentUserProvider = ({ children }) => {
       fetch(`/user/${user?.email}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (!data.data.userpicture) {
-            console.log("hello");
             setNewUser(true);
             setStatus("loaded");
           } else {
