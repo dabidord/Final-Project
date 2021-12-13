@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
+import ReviewFeed from "./ReviewFeed";
 
-const ReviewForm = ({ thisUser }) => {
+const ReviewForm = ({ thisUser, currentUser }) => {
   const [rate, setRate] = useState(thisUser?.rating);
   const [formValue, setFormValue] = useState({
-    email: thisUser?.email,
+    from: currentUser?.email,
     rating: thisUser?.rating,
     review: "",
   });
@@ -30,51 +31,54 @@ const ReviewForm = ({ thisUser }) => {
 
   return (
     <>
-      <Container>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <StarContainer>
-            Give this user a rating : {"\u00a0"}
-            {[...Array(5)].map((item, index) => {
-              const givenRating = index + 1;
-              return (
-                <label>
-                  <Radio
-                    type="radio"
-                    value={givenRating}
-                    onClick={() => {
-                      setRate(givenRating);
-                    }}
-                    onChange={(e) =>
-                      setFormValue({ ...formValue, rating: e.target.value })
-                    }
-                  />
-                  <Rating>
-                    <FaStar
-                      color={
-                        givenRating < rate || givenRating === rate
-                          ? "#e4d00a"
-                          : "rgb(192,192,192)"
+      {currentUser?.email !== thisUser?.email ? (
+        <Container>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <StarContainer>
+              Give this user a rating : {"\u00a0"}
+              {[...Array(5)].map((item, index) => {
+                const givenRating = index + 1;
+                return (
+                  <label>
+                    <Radio
+                      type="radio"
+                      value={givenRating}
+                      onClick={() => {
+                        setRate(givenRating);
+                      }}
+                      onChange={(e) =>
+                        setFormValue({ ...formValue, rating: e.target.value })
                       }
                     />
-                  </Rating>
-                </label>
-              );
-            })}
-          </StarContainer>
-          <Label>
-            Leave a review :
-            <Text
-              onChange={(e) => {
-                setFormValue({ ...formValue, review: e.target.value });
-              }}
-              type="text"
-              name="review"
-              placeholder="Leave a review..."
-            />
-          </Label>
-          <Submit type="submit" value="Submit" />
-        </form>
-      </Container>
+                    <Rating>
+                      <FaStar
+                        color={
+                          givenRating < rate || givenRating === rate
+                            ? "#e4d00a"
+                            : "rgb(192,192,192)"
+                        }
+                      />
+                    </Rating>
+                  </label>
+                );
+              })}
+            </StarContainer>
+            <Label>
+              Leave a review :
+              <Text
+                onChange={(e) => {
+                  setFormValue({ ...formValue, review: e.target.value });
+                }}
+                type="text"
+                name="review"
+                placeholder="Leave a review..."
+              />
+            </Label>
+            <Submit type="submit" value="Submit" />
+          </form>
+        </Container>
+      ) : null}
+      <ReviewFeed thisUser={thisUser} />
     </>
   );
 };

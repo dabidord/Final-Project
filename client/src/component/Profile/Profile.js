@@ -141,7 +141,9 @@ const Profile = () => {
         {about === true && <UserInfo thisUser={thisUser} />}
         {bio === true && <UserBio thisUser={thisUser} />}
         {ads === true && <ListingByUser email={thisUser?.email} />}
-        {reviews === true && <ReviewForm thisUser={thisUser} />}
+        {reviews === true && (
+          <ReviewForm thisUser={thisUser} currentUser={currentUser} />
+        )}
       </>
     );
   }
