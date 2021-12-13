@@ -188,17 +188,18 @@ const addUserInfo = async (req, res) => {
 
 const addReview = async (req, res) => {
   const { email } = req.params;
-  const { rating, review } = req.body;
+  const { rating, review, from } = req.body;
+  const _id = uuidv4();
+  const timestamp = new Date().toISOString();
   const values = {
     $set: {
       rating,
     },
     $push: {
-      reviews: review,
+      reviews: { _id, review, from, rating, timestamp },
     },
   };
   //https://docs.mongodb.com/manual/reference/operator/update/push/
-  const timestamp = new Date().toISOString();
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
@@ -207,7 +208,7 @@ const addReview = async (req, res) => {
     const rating = await db.collection("users").updateOne({ email }, values);
     if (rating) {
       console.log(rating);
-      res.status(200).json({ status: 200, added: rating, timestamp });
+      res.status(200).json({ status: 200, added: rating });
     } else {
       res.status(404).json({ status: 404, message: "Not Found" });
     }

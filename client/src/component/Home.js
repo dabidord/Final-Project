@@ -9,7 +9,6 @@ import ListingFeed from "./ListingFeed";
 import NewUser from "./Conditionnal/NewUser";
 import Loading from "./Conditionnal/Loading";
 import UserNotLogged from "./Conditionnal/UserNotLogged";
-import Maps from "./Maps/Maps";
 const Home = () => {
   let navigate = useNavigate();
   const { currentUser, newUser, status } = useContext(CurrentUserContext);

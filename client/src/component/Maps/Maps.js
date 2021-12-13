@@ -37,7 +37,9 @@ const Maps = () => {
           zoom={7}
           center={center}
           onLoad={onMapLoad}
-        ></GoogleMap>
+        >
+          <Circle />
+        </GoogleMap>
       </Container>
     </>
   );
