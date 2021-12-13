@@ -11,27 +11,32 @@ export const ListingProvider = ({ children }) => {
     category: "",
     zone: "",
     description: "",
+    location: "",
+    price: "",
   };
   const [formValue, setFormValue] = useState(initialValue);
 
   //onClickSubmit to server
-  const submitListing = () => {
-    fetch(`/listing`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        ...formValue,
-        email: user.email,
-        name: currentUser?.name,
-        nickname: currentUser?.nickname,
-        userpicture: currentUser?.picture,
-      }),
-    }).catch((err) => {
-      console.log(err);
-    });
+  const submitListing = (e) => {
+    if ((user, currentUser)) {
+      e.preventDefault();
+      fetch(`/listing`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...formValue,
+          email: user?.email,
+          name: currentUser?.name,
+          nickname: currentUser?.nickname,
+          userpicture: currentUser?.userpicture,
+        }),
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   return (

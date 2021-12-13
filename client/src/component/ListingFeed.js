@@ -43,7 +43,6 @@ const ListingFeed = () => {
   //************************************************************** */
   /// fetching for listing dynamically from query
   //************************************************************** */
-
   useEffect(() => {
     setStatus("loading");
     let url = ``;
@@ -92,28 +91,34 @@ const ListingFeed = () => {
     return (
       <>
         <Dropdown>
-          <select
-            onChange={(e) => {
-              handleCategory(e);
-            }}
-            value={category}
-          >
-            <option>All</option>;
-            {categories.map((item, id) => {
-              return <option key={id}>{item}</option>;
-            })}
-          </select>
-          <select
-            value={zone}
-            onChange={(e) => {
-              handleZone(e);
-            }}
-          >
-            <option>All</option>;
-            {zones.map((item, id) => {
-              return <option key={id}>{item}</option>;
-            })}
-          </select>
+          <div>
+            Sort by Categories : {"\u00a0"}
+            <Select
+              onChange={(e) => {
+                handleCategory(e);
+              }}
+              value={category}
+            >
+              <option>All</option>;
+              {categories.map((item, id) => {
+                return <option key={id}>{item}</option>;
+              })}
+            </Select>
+          </div>
+          <div>
+            Sort by Zone :{"\u00a0"}
+            <Select
+              value={zone}
+              onChange={(e) => {
+                handleZone(e);
+              }}
+            >
+              <option>All</option>;
+              {zones.map((item, id) => {
+                return <option key={id}>{item}</option>;
+              })}
+            </Select>
+          </div>
         </Dropdown>
         <Container>
           {listings?.map((item, id) => {
@@ -136,6 +141,9 @@ const ListingFeed = () => {
                 <Title>{item?.title}</Title>
                 <Category>
                   <strong>Category:</strong> {item?.category}
+                </Category>
+                <Category>
+                  <strong>Zone:</strong> {item?.zone}
                 </Category>
                 <TimeStamp>
                   {moment(item?.timestamp).format("MMM Do")}
@@ -160,6 +168,25 @@ const Dropdown = styled.div`
   color: #65676b;
 `;
 
+const Select = styled.select`
+  width: 100px;
+  height: 35px;
+  background: white;
+  color: gray;
+  padding-left: 5px;
+  font-size: 14px;
+  border: none;
+  margin-left: 10px;
+  option {
+    color: black;
+    background: white;
+    display: flex;
+    white-space: pre;
+    min-height: 20px;
+    padding: 0px 2px 1px;
+  }
+`;
+
 const Container = styled.div`
   width: 40%;
   height: 100%;
@@ -174,16 +201,13 @@ const AdContainer = styled.div`
   flex-direction: column;
   height: 100%;
   width: auto;
-  border: 1px solid;
-  border-radius: 3px;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   :hover {
-    /* transform: translateY(1px) scale(1);
-    transform-origin: 50%;
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1); */
-    border: 1.5px solid #2c5ff6;
+    transform: translate(0, 0) scale(1.01);
   }
 `;
 const UserInfo = styled.div`
@@ -206,13 +230,13 @@ const Title = styled.div`
 
 const Category = styled.div`
   font-size: 13px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const TimeStamp = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin: 10px 0;
+  margin: 5px;
 `;
 
 export default ListingFeed;

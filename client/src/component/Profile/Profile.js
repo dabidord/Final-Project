@@ -6,11 +6,11 @@ import { HiOutlinePencil } from "react-icons/hi";
 import ListingByUser from "./ListingByUser";
 import EditProfile from "./EditProfile";
 import UserInfo from "./UserInfo";
-import FriendsList from "./FriendsList";
+import ReviewForm from "./ReviewForm";
 import UserBio from "./UserBio";
 import Loading from "../Conditionnal/Loading";
-import NewUser from "../Conditionnal/NewUser";
 import UserNotLogged from "../Conditionnal/UserNotLogged";
+import Star from "../Rating/Star";
 //contexts
 import { useAuth0 } from "@auth0/auth0-react";
 import { CurrentUserContext } from "../Context/CurrentUser";
@@ -23,8 +23,8 @@ const Profile = () => {
   const [modify, setModify] = useState(false);
   const [about, setAbout] = useState(false);
   const [bio, setBio] = useState(false);
-  const [friends, setFriends] = useState(false);
-  const [ads, setAds] = useState(false);
+  const [reviews, setReviews] = useState(false);
+  const [ads, setAds] = useState(true);
   const [status, setStatus] = useState("idle");
   let { email } = useParams();
 
@@ -75,7 +75,7 @@ const Profile = () => {
                   onClick={() => {
                     setAbout(false);
                     setBio(false);
-                    setFriends(false);
+                    setReviews(false);
                     setAds(false);
                     setModify(true);
                   }}
@@ -85,15 +85,27 @@ const Profile = () => {
                 <img alt="avatar" src={thisUser?.userpicture} />
                 <InfoContainer>
                   <NickName>{thisUser?.nickname}</NickName>
+                  <Star rating={thisUser?.rating} />
                 </InfoContainer>
               </UserContainer>
             </Container>
             <UserNav>
               <Nav
                 onClick={() => {
+                  setAbout(false);
+                  setBio(false);
+                  setReviews(false);
+                  setAds(true);
+                  setModify(false);
+                }}
+              >
+                Listings
+              </Nav>
+              <Nav
+                onClick={() => {
                   setAbout(true);
                   setBio(false);
-                  setFriends(false);
+                  setReviews(false);
                   setAds(false);
                   setModify(false);
                 }}
@@ -104,7 +116,7 @@ const Profile = () => {
                 onClick={() => {
                   setAbout(false);
                   setBio(true);
-                  setFriends(false);
+                  setReviews(false);
                   setAds(false);
                   setModify(false);
                 }}
@@ -115,23 +127,12 @@ const Profile = () => {
                 onClick={() => {
                   setAbout(false);
                   setBio(false);
-                  setFriends(false);
-                  setAds(true);
-                  setModify(false);
-                }}
-              >
-                Ads
-              </Nav>
-              <Nav
-                onClick={() => {
-                  setAbout(false);
-                  setBio(false);
-                  setFriends(true);
+                  setReviews(true);
                   setAds(false);
                   setModify(false);
                 }}
               >
-                Friends
+                Reviews
               </Nav>
             </UserNav>
           </div>
@@ -139,8 +140,8 @@ const Profile = () => {
         {modify === true && <EditProfile setModify={setModify} />}
         {about === true && <UserInfo thisUser={thisUser} />}
         {bio === true && <UserBio thisUser={thisUser} />}
-        {ads === true && <ListingByUser thisUser={thisUser} />}
-        {friends === true && <FriendsList thisUser={thisUser} />}
+        {ads === true && <ListingByUser email={thisUser?.email} />}
+        {reviews === true && <ReviewForm thisUser={thisUser} />}
       </>
     );
   }

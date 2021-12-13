@@ -5,6 +5,7 @@ import styled from "styled-components";
 import moment from "moment";
 //components
 import Loading from "./Conditionnal/Loading";
+import Maps from "./Maps/Maps";
 
 const ListingDetail = () => {
   const [listing, setListing] = useState(null);
@@ -38,22 +39,31 @@ const ListingDetail = () => {
       <>
         <Container>
           <UserInfo>
-            <strong style={{ marginRight: "20px" }}>Posted by :</strong>{" "}
+            <strong style={{ marginRight: "20px" }}>Posted by :</strong>
             <Avatar alt="userpicture" src={listing?.userpicture} />
             {listing?.nickname}
           </UserInfo>
           <Title>{listing?.title}</Title>
           <Description>
-            <strong style={{ marginBottom: "10px" }}>Description: </strong>
+            <strong style={{ marginBottom: "10px" }}>Description : </strong>
+            {"\u00a0"}
             {listing?.description}
           </Description>
+          <strong style={{ marginBottom: "10px" }}>Location : </strong> <Maps />
           <Category>
-            <strong>Category:</strong> {listing?.category}
+            <strong>Category :</strong> {"\u00a0"}
+            {listing?.category}
           </Category>
-          <div>
-            <strong>Zone: </strong>
+          <Category>
+            <strong>Zone : </strong>
+            {"\u00a0"}
             {listing?.zone}
-          </div>
+          </Category>
+          <Category>
+            <strong>Price : </strong>
+            {"\u00a0"}
+            {`${listing?.price}$`}
+          </Category>
           <TimeStamp>
             {moment(listing?.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
           </TimeStamp>
@@ -72,14 +82,15 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   color: #65676b;
-  border: solid;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
   padding: 3px 0;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const Avatar = styled.img`
