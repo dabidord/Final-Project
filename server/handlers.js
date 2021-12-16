@@ -222,7 +222,6 @@ const modifyProfile = async (req, res) => {
     const db = client.db("FinalProject");
     console.log("connected");
     const foundUser = await db.collection("users").findOne({ email });
-    console.log(foundUser.rating);
     if (foundUser.rating) {
       const update1 = await db
         .collection("users")

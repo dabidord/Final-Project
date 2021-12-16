@@ -8,6 +8,7 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [newUser, setNewUser] = useState(false);
   const [status, setStatus] = useState("idle");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (user && isAuthenticated) {
@@ -24,10 +25,12 @@ export const CurrentUserProvider = ({ children }) => {
           }
         });
     }
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, isSubmitted]);
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser, newUser, status }}>
+    <CurrentUserContext.Provider
+      value={{ currentUser, newUser, status, setIsSubmitted }}
+    >
       {children}
     </CurrentUserContext.Provider>
   );

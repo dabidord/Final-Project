@@ -40,7 +40,13 @@ export const ListingProvider = ({ children }) => {
   };
 
   return (
-    <ListingContext.Provider value={{ formValue, setFormValue, submitListing }}>
+    <ListingContext.Provider
+      value={{
+        formValue,
+        setFormValue,
+        submitListing,
+      }}
+    >
       {children}
     </ListingContext.Provider>
   );

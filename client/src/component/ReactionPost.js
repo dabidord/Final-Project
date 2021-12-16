@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { CurrentUserContext } from "./Context/CurrentUser";
 import styled from "styled-components";
-import { useNavigate } from "react-router";
-const ReactionPost = ({ _id }) => {
+// import { useNavigate } from "react-router";
+const ReactionPost = ({ _id, setIsSubmitted }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [formValue, setFormValue] = useState({
     from: currentUser?.userpicture,
     reaction: "",
     user: currentUser?.email,
   });
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   const postReaction = (e) => {
     if (currentUser) {
@@ -27,6 +27,7 @@ const ReactionPost = ({ _id }) => {
         console.log(err);
       });
     }
+    setIsSubmitted(true);
   };
 
   return (
@@ -34,7 +35,6 @@ const ReactionPost = ({ _id }) => {
       <FormContainer
         onSubmit={async (e) => {
           await postReaction(e);
-          navigate(`/`);
         }}
       >
         <Label>
