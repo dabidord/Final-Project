@@ -43,7 +43,7 @@ const Profile = () => {
         }
         setStatus("loaded");
       });
-  }, [currentUser, modify]);
+  }, [currentUser, modify, email, thisUser?.email]);
 
   if (status === "loading") {
     return (
@@ -82,7 +82,7 @@ const Profile = () => {
                 />
               )}
               <UserContainer>
-                <img alt="avatar" src={thisUser?.userpicture} />
+                <Avatar alt="avatar" src={thisUser?.userpicture} />
                 <InfoContainer>
                   <NickName>{thisUser?.nickname}</NickName>
                   <Star rating={thisUser?.rating} />
@@ -195,6 +195,11 @@ const UserContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+const Avatar = styled.img`
+  height: 120px;
+  width: 120px;
 `;
 
 const InfoContainer = styled.div`

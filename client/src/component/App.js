@@ -30,7 +30,7 @@ body{
   margin:0;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
-
+  background-color: linear-gradient(to top, #FFFFFF, rgb(255, 255, 255), rgba(255,255,255,0.7), rgba(255,255,255,0.4), rgba(255,255,255,0));
 }
   
 `;

@@ -6,6 +6,8 @@ import moment from "moment";
 //components
 import Loading from "./Conditionnal/Loading";
 import Maps from "./Maps/Maps";
+import ReactionPost from "./ReactionPost";
+import ReactionFeed from "./ReactionFeed";
 
 const ListingDetail = () => {
   const [listing, setListing] = useState(null);
@@ -49,7 +51,8 @@ const ListingDetail = () => {
             {"\u00a0"}
             {listing?.description}
           </Description>
-          <strong style={{ marginBottom: "10px" }}>Location : </strong> <Maps />
+          <strong style={{ marginBottom: "10px" }}>Location : </strong>{" "}
+          <Maps location={listing?.location} />
           <Category>
             <strong>Category :</strong> {"\u00a0"}
             {listing?.category}
@@ -68,6 +71,8 @@ const ListingDetail = () => {
             {moment(listing?.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
           </TimeStamp>
         </Container>
+        <ReactionPost _id={listing?._id} />
+        <ReactionFeed user={listing?.email} reactions={listing?.reactions} />
       </>
     );
   }
@@ -82,8 +87,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   color: #65676b;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
 `;
 
 const UserInfo = styled.div`

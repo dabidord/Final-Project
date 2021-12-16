@@ -100,8 +100,8 @@ const ListingFeed = () => {
               value={category}
             >
               <option>All</option>;
-              {categories.map((item, id) => {
-                return <option key={id}>{item}</option>;
+              {categories.map((item) => {
+                return <option key={item?._id}>{item}</option>;
               })}
             </Select>
           </div>
@@ -166,6 +166,8 @@ const Dropdown = styled.div`
   align-items: center;
   justify-content: space-evenly;
   color: #65676b;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 const Select = styled.select`
@@ -204,8 +206,8 @@ const AdContainer = styled.div`
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   :hover {
     transform: translate(0, 0) scale(1.01);
   }

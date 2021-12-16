@@ -20,16 +20,12 @@ const getAllListing = async (req, res) => {
     if (zone !== undefined) {
       query["zone"] = zone;
     }
-    console.log(query);
-
     await client.connect();
     console.log("connected");
     const db = client.db("FinalProject");
     const result = await db.collection("ads").find(query).toArray();
     if (!result || result.length == 0) {
       // Return error if no results or errors
-      console.log(result);
-
       return res.status(500).json({
         status: 500,
         data: req.query,
@@ -164,28 +160,6 @@ const getUserById = async (req, res) => {
   }
 };
 
-const addUserInfo = async (req, res) => {
-  const { email } = req.params;
-  const client = new MongoClient(MONGO_URI, options);
-  const { userpicture } = req.body;
-  try {
-    await client.connect();
-    console.log("connected");
-    const db = client.db("FinalProject");
-    const add = await db.collection("users").updateOne({ email }, ...req.body);
-    if (add) {
-      res.status(200).json({ status: 200, email, added: req.body });
-    } else {
-      res.status(404).json({ status: 404, email, message: "Not Found" });
-    }
-  } catch (err) {
-    res.status(404).json({ status: 404, message: err });
-  } finally {
-    client.close();
-    console.log("disconnected");
-  }
-};
-
 const addReview = async (req, res) => {
   const { email } = req.params;
   const { rating, review, from } = req.body;
@@ -207,7 +181,6 @@ const addReview = async (req, res) => {
     console.log("connected");
     const rating = await db.collection("users").updateOne({ email }, values);
     if (rating) {
-      console.log(rating);
       res.status(200).json({ status: 200, added: rating });
     } else {
       res.status(404).json({ status: 404, message: "Not Found" });
@@ -221,10 +194,10 @@ const addReview = async (req, res) => {
 };
 
 const modifyProfile = async (req, res) => {
-  const { nickname, name, location, bio, email, userpicture } = req.body;
+  const { nickname, name, location, bio, email, userpicture, rating } =
+    req.body;
   const timestamp = new Date().toISOString();
-
-  const updatedValues = {
+  const updatedValuez = {
     $set: {
       location: location,
       bio: bio,
@@ -233,22 +206,73 @@ const modifyProfile = async (req, res) => {
       userpicture: userpicture,
     },
   };
-
+  const updatedValues = {
+    $set: {
+      location: location,
+      bio: bio,
+      nickname: nickname,
+      name: name,
+      userpicture: userpicture,
+      rating: rating,
+    },
+  };
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
     const db = client.db("FinalProject");
     console.log("connected");
-    const update = await db
-      .collection("users")
-      .updateOne({ email }, updatedValues);
-    if (update) {
-      res.status(200).json({ status: 200, modify: update, timestamp });
+    const foundUser = await db.collection("users").findOne({ email });
+    console.log(foundUser.rating);
+    if (foundUser.rating) {
+      const update1 = await db
+        .collection("users")
+        .updateOne({ email }, updatedValuez);
+      if (update1) {
+        res.status(200).json({ status: 200, modify: update1, timestamp });
+      } else {
+        res.status(404).json({ status: 404, message: "Not Found" });
+      }
+    } else {
+      const update2 = await db
+        .collection("users")
+        .updateOne({ email }, updatedValues);
+      if (update2) {
+        res.status(200).json({ status: 200, modify: update2, timestamp });
+      } else {
+        res.status(404).json({ status: 404, message: "Not Found" });
+      }
+    }
+  } catch (err) {
+    res.status(404).json({ status: 404, message: err.message });
+    console.log(err);
+  } finally {
+    client.close();
+    console.log("disconnected");
+  }
+};
+
+const addReaction = async (req, res) => {
+  const { _id } = req.params;
+  const { from, reaction, user } = req.body;
+  const timestamp = new Date().toISOString();
+  const values = {
+    $push: {
+      reactions: { user, from, reaction, timestamp },
+    },
+  };
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("FinalProject");
+    console.log("connected");
+    const reaction = await db.collection("ads").updateOne({ _id }, values);
+    if (reaction) {
+      res.status(200).json({ status: 200, added: values });
     } else {
       res.status(404).json({ status: 404, message: "Not Found" });
     }
   } catch (err) {
-    res.status(404).json({ status: 404, message: err.message });
+    res.status(404).json({ status: 404, message: "Not Found" });
   } finally {
     client.close();
     console.log("disconnected");
@@ -261,7 +285,7 @@ module.exports = {
   getListingById,
   addListing,
   getUserById,
-  addUserInfo,
   addReview,
   modifyProfile,
+  addReaction,
 };

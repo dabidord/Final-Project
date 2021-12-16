@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router";
 
 const EditProfile = ({ modify, setModify }) => {
   const { user } = useAuth0();
+  let navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     nickname: user?.nickname,
     name: "",
     location: "",
     bio: "",
+    rating: 5,
     userpicture: user?.picture,
   });
+
   //************************************************************** */
   /// modifying profile
   //************************************************************** */
@@ -30,8 +34,8 @@ const EditProfile = ({ modify, setModify }) => {
       console.log(err);
     });
     setModify(false);
+    navigate(`/`);
   };
-
   return (
     <>
       <Container>
@@ -39,6 +43,7 @@ const EditProfile = ({ modify, setModify }) => {
           <Label>
             Nickname :
             <Input
+              required
               onChange={(e) => {
                 setFormValue({ ...formValue, nickname: e.target.value });
               }}
@@ -50,6 +55,7 @@ const EditProfile = ({ modify, setModify }) => {
           <Label>
             Name :
             <Input
+              required
               onChange={(e) => {
                 setFormValue({ ...formValue, name: e.target.value });
               }}
@@ -61,6 +67,7 @@ const EditProfile = ({ modify, setModify }) => {
           <Label>
             Location :
             <Input
+              required
               onChange={(e) => {
                 setFormValue({ ...formValue, location: e.target.value });
               }}
@@ -71,6 +78,7 @@ const EditProfile = ({ modify, setModify }) => {
           <Label>
             Bio :
             <Text
+              required
               onChange={(e) => {
                 setFormValue({ ...formValue, bio: e.target.value });
               }}
@@ -148,15 +156,31 @@ const BtnContainer = styled.div`
 `;
 
 const Cancel = styled.button`
+  border: none;
+  border-radius: 4px;
   width: 120px;
-  height: 40px;
+  height: 35px;
   margin: 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #2c5ff6;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const Submit = styled.input`
+  border: none;
+  border-radius: 4px;
   width: 120px;
-  height: 40px;
+  height: 35px;
   margin: 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #2c5ff6;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 export default EditProfile;

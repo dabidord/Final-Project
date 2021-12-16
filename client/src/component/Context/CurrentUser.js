@@ -8,7 +8,6 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [newUser, setNewUser] = useState(false);
   const [status, setStatus] = useState("idle");
-  const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     if (user && isAuthenticated) {
@@ -22,16 +21,13 @@ export const CurrentUserProvider = ({ children }) => {
           } else {
             setCurrentUser(data.data);
             setStatus("loaded");
-            setIsLogged(true);
           }
         });
     }
-  }, [user]);
+  }, [user, isAuthenticated]);
 
   return (
-    <CurrentUserContext.Provider
-      value={{ currentUser, newUser, status, isLogged }}
-    >
+    <CurrentUserContext.Provider value={{ currentUser, newUser, status }}>
       {children}
     </CurrentUserContext.Provider>
   );
