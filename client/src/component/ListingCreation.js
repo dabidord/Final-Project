@@ -2,11 +2,13 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { ListingContext } from "./Context/ListingContext";
 import Maps from "./Maps/Maps";
+import { useNavigate } from "react-router";
 
 const ListingCreation = () => {
   const { formValue, setFormValue, submitListing } = useContext(ListingContext);
-
+  let navigate = useNavigate();
   //Zones creation
+
   const zones = [];
   for (let i = 1; i <= 29; i++) {
     zones.push(`Zone ${+i}`);
@@ -14,13 +16,19 @@ const ListingCreation = () => {
 
   return (
     <>
-      <FormContainer onSubmit={(e) => submitListing(e)}>
+      <FormContainer
+        onSubmit={async (e) => {
+          await submitListing(e);
+          navigate("/");
+        }}
+      >
         <Title>
           <h3>Create new listing:</h3>
         </Title>
         <Container>
           <SmallTitle>Title :</SmallTitle>
           <TextInput
+            required
             onChange={(e) => {
               setFormValue({ ...formValue, title: e.target.value });
             }}
@@ -31,6 +39,7 @@ const ListingCreation = () => {
           <Radio>
             <Label> Land :</Label>
             <input
+              required
               type="radio"
               value="Land"
               name="Category"
@@ -42,8 +51,21 @@ const ListingCreation = () => {
           <Radio>
             <Label> Guide :</Label>
             <input
+              required
               type="radio"
               value="Guide"
+              name="Category"
+              onChange={(e) => {
+                setFormValue({ ...formValue, category: e.target.value });
+              }}
+            />
+          </Radio>
+          <Radio>
+            <Label> Looking :</Label>
+            <input
+              required
+              type="radio"
+              value="Looking"
               name="Category"
               onChange={(e) => {
                 setFormValue({ ...formValue, category: e.target.value });
@@ -54,6 +76,7 @@ const ListingCreation = () => {
         <ZoneContainer>
           <div>Zone :</div>
           <Select
+            required
             onChange={(e) => {
               setFormValue({ ...formValue, zone: e.target.value });
             }}
@@ -68,6 +91,7 @@ const ListingCreation = () => {
         <Container>
           <SmallTitle>Price :</SmallTitle>
           <PriceInput
+            required
             placeholder="$"
             onChange={(e) => {
               setFormValue({ ...formValue, price: e.target.value });
@@ -81,14 +105,15 @@ const ListingCreation = () => {
         <Container>
           <SmallTitle>Description :</SmallTitle>
           <Text
+            required
             onChange={(e) => {
               setFormValue({ ...formValue, description: e.target.value });
             }}
           ></Text>
         </Container>
-        <Container>
+        <SubmitContainer>
           <Submit type="submit" />
-        </Container>
+        </SubmitContainer>
       </FormContainer>
     </>
   );
@@ -176,7 +201,7 @@ const PriceInput = styled.input`
 
 const Radio = styled.div`
   display: flex;
-  flex-dirention: row;
+  flex-direction: row;
   align-items: center;
   margin: 10px 0;
 `;
@@ -213,10 +238,27 @@ const Text = styled.textarea`
   outline: none;
 `;
 
+const SubmitContainer = styled.div`
+  width: 50%;
+  height: 100%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Submit = styled.input`
+  border: none;
+  border-radius: 4px;
   width: 120px;
-  height: 40px;
+  height: 35px;
   margin: 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #2c5ff6;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 export default ListingCreation;

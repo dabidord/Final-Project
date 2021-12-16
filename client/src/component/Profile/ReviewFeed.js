@@ -46,7 +46,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  width: 60%;
+  width: 50%;
   height: 100%;
   margin: 40px auto;
   display: flex;

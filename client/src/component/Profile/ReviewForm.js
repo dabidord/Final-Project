@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 import ReviewFeed from "./ReviewFeed";
+import { useNavigate } from "react-router";
 
 const ReviewForm = ({ thisUser, currentUser }) => {
   const [rate, setRate] = useState(thisUser?.rating);
@@ -11,6 +12,8 @@ const ReviewForm = ({ thisUser, currentUser }) => {
     review: "",
   });
   const email = thisUser?.email;
+  let navigate = useNavigate();
+
   //Round up rating value
 
   const handleSubmit = (e) => {
@@ -41,6 +44,7 @@ const ReviewForm = ({ thisUser, currentUser }) => {
                 return (
                   <label>
                     <Radio
+                      required
                       type="radio"
                       value={givenRating}
                       onClick={() => {
@@ -52,6 +56,7 @@ const ReviewForm = ({ thisUser, currentUser }) => {
                     />
                     <Rating>
                       <FaStar
+                        required
                         color={
                           givenRating < rate || givenRating === rate
                             ? "#e4d00a"
@@ -66,6 +71,7 @@ const ReviewForm = ({ thisUser, currentUser }) => {
             <Label>
               Leave a review :
               <Text
+                required
                 onChange={(e) => {
                   setFormValue({ ...formValue, review: e.target.value });
                 }}
@@ -95,11 +101,6 @@ const Container = styled.div`
   color: #65676b;
   font-size: 16px;
 `;
-// const StarContainer = styled.div`
-//   display: flex;
-//   font-weight: bold;
-//   margin: 10px;
-// `;
 
 const StarContainer = styled.div`
   display: flex;
@@ -138,9 +139,17 @@ const Text = styled.textarea`
 `;
 
 const Submit = styled.input`
+  border: none;
+  border-radius: 4px;
   width: 120px;
-  height: 40px;
+  height: 35px;
   margin: 10px;
+  color: white;
+  cursor: pointer;
+  background-color: #2c5ff6;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 export default ReviewForm;

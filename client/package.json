@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:8080/",
+  "proxy": "http://localhost:8000/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.8.0",
@@ -16,7 +16,6 @@
     "icons": "^1.0.0",
     "material-ui": "^0.20.2",
     "moment": "^2.29.1",
-    "ract": "^0.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-geocode": "^0.2.3",

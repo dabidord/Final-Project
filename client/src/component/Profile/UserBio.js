@@ -4,14 +4,15 @@ const UserBio = ({ thisUser }) => {
   return (
     <>
       <Container>
-        <Title>About me :</Title> {thisUser?.bio}
+        <Title>About me :</Title>
+        <div>{thisUser?.bio}</div>
       </Container>
     </>
   );
 };
 
 const Container = styled.div`
-  width: 50%;
+  max-width: 50%;
   height: 100%;
   margin: 20px auto;
   display: flex;

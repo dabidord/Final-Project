@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { ListingContext } from "../Context/ListingContext";
-import { MapsContext } from "../Context/MapsContext";
 
 import usePlacesAutoComplete, {
   getGeocode,
@@ -17,7 +16,6 @@ import {
 
 const Search = ({ panTo }) => {
   const { formValue, setFormValue } = useContext(ListingContext);
-  const { coord } = useContext(MapsContext);
 
   const {
     ready,

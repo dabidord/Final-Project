@@ -72,7 +72,8 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  font-size: 24px;
+  color: #65676b;
+  font-size: 20px;
   border-bottom: 2px solid #2c5ff6;
   padding-bottom: 20px;
 `;
@@ -83,7 +84,9 @@ const UserContainer = styled.div`
 `;
 
 const Nickname = styled.div`
-  font-size: 16px;
+  color: #65676b;
+  font-size: 18px;
+  font-weight: bold;
   margin: 0 20px;
 `;
 

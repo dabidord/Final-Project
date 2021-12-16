@@ -9,6 +9,7 @@ import {
   AiOutlineUser,
   AiOutlineInfoCircle,
 } from "react-icons/ai";
+import NavLogoBest from "../component/assets/NavLogoBest.png";
 import { CurrentUserContext } from "./Context/CurrentUser";
 
 const NavBar = () => {
@@ -19,7 +20,7 @@ const NavBar = () => {
     <>
       <Wrapper>
         <Container>
-          <Title>HuntTree</Title>
+          <Logo src={NavLogoBest} />
           <ButtonContainer>
             <StyledLink to="/">
               <AiOutlineHome />
@@ -40,6 +41,7 @@ const NavBar = () => {
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 90px;
   background-color: #2c5ff6;
 `;
 
@@ -48,15 +50,14 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #2c5ff6;
-  padding: 15px;
-  width: 60%;
+  padding: 5px;
+  width: 55%;
   margin: auto;
 `;
 
-const Title = styled.div`
-  font-size: 48px;
-  font-weight: bold;
-  color: #e4d00a;
+const Logo = styled.img`
+  height: 70px;
+  width: auto;
 `;
 
 const ButtonContainer = styled.div`
@@ -71,9 +72,8 @@ const StyledLink = styled(NavLink)`
   font-size: 24px;
   padding: 10px 30px;
   &:hover {
-    border-bottom: 2px solid #e4d00a;
+    border-bottom: 2px solid #d9d9d9;
     transform: translateY(-1px);
-    color: #e4d00a;
   }
 `;
 
