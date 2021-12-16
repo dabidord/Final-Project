@@ -12,6 +12,7 @@ import ReactionFeed from "./ReactionFeed";
 const ListingDetail = () => {
   const [listing, setListing] = useState(null);
   const [status, setStatus] = useState("idle");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   let { _id } = useParams();
 
   //************************************************************** */
@@ -28,7 +29,7 @@ const ListingDetail = () => {
         console.log(err);
       });
     setStatus("loaded");
-  }, [_id]);
+  }, [_id, isSubmitted]);
 
   if (status === "loading") {
     return (
@@ -71,7 +72,7 @@ const ListingDetail = () => {
             {moment(listing?.timestamp).format("MMMM Do YYYY, h:mm:ss a")}
           </TimeStamp>
         </Container>
-        <ReactionPost _id={listing?._id} />
+        <ReactionPost _id={listing?._id} setIsSubmitted={setIsSubmitted} />
         <ReactionFeed user={listing?.email} reactions={listing?.reactions} />
       </>
     );

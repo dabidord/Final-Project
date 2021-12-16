@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 import ReviewFeed from "./ReviewFeed";
-import { useNavigate } from "react-router";
+import { CurrentUserContext } from "../Context/CurrentUser";
 
 const ReviewForm = ({ thisUser, currentUser }) => {
   const [rate, setRate] = useState(thisUser?.rating);
@@ -12,9 +12,7 @@ const ReviewForm = ({ thisUser, currentUser }) => {
     review: "",
   });
   const email = thisUser?.email;
-  let navigate = useNavigate();
-
-  //Round up rating value
+  const { setIsSubmitted } = useContext(CurrentUserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +28,7 @@ const ReviewForm = ({ thisUser, currentUser }) => {
     }).catch((err) => {
       console.log(err);
     });
+    setIsSubmitted(true);
   };
 
   return (

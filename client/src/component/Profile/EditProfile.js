@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router";
+import { CurrentUserContext } from "../Context/CurrentUser";
 
-const EditProfile = ({ modify, setModify }) => {
+const EditProfile = ({ setModify }) => {
   const { user } = useAuth0();
-  let navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     nickname: user?.nickname,
     name: "",
@@ -14,7 +13,7 @@ const EditProfile = ({ modify, setModify }) => {
     rating: 5,
     userpicture: user?.picture,
   });
-
+  const { setIsSubmitted } = useContext(CurrentUserContext);
   //************************************************************** */
   /// modifying profile
   //************************************************************** */
@@ -34,7 +33,7 @@ const EditProfile = ({ modify, setModify }) => {
       console.log(err);
     });
     setModify(false);
-    navigate(`/`);
+    setIsSubmitted(true);
   };
   return (
     <>
